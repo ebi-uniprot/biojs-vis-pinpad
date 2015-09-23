@@ -1,0 +1,61 @@
+{
+  "name": "biojs-vis-pinpad",
+  "description": "A component to pin tootlip-like information",
+  "version": "0.1.0",
+  "homepage": "https://github.com/ebi-uniprot/biojs-vis-pinpad",
+  "author": {
+    "name": "ljgarcia",
+    "email": "ljgarcia@ebi.ac.uk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ebi-uniprot/biojs-vis-pinpad.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ebi-uniprot/biojs-vis-pinpad/issues"
+  },
+  "licenses": [
+    {
+      "type": "Apache 2",
+      "url": "https://github.com/ebi-uniprot/biojs-vis-pinpad/blob/master/LICENSE"
+    }
+  ],
+  "main": "lib/biojsVisPinpad.js",
+  "scripts": {
+		"test": "gulp test",
+		"build": "gulp build",
+		"build-browser": "gulp build-browser",
+		"build-browser-min": "gulp build-browser-gzip",
+		"prepublish": "gulp build",
+		"watch": "gulp watch",
+		"test-watch": "gulp test-watch",
+		"sniper": "biojs-sniper ."
+  },
+  "dependencies": {},
+  "devDependencies": {
+		"mkdirp": "^0.5.0",
+		"browserify": "6.x",
+		"biojs-sniper": "0.x",
+		"watchify": "^1.0.6",
+		"gulp-jshint": "1.x",
+		"chai": "1.x",
+		"mocha": "1.x",
+		"gulp-mocha": "1.x",
+		"gulp-mocha-phantomjs": "0.x",
+		"del": "^0.1.3",
+		"gulp": "^3.8.8",
+		"gulp-chmod": "^1.1.1",
+		"gulp-gzip": "^0.0.8",
+		"gulp-rename": "^1.2.0",
+		"gulp-streamify": "^0.0.5",
+		"gulp-uglify": "^1.0.1",
+		"gulp-util": "^3.0.1",
+		"vinyl-source-stream": "^1.0.0"
+  },
+  "sniper": {
+    "js": [ "/build/biojsVisPinpad.js"],
+    "snippets": ["examples"],
+    "first": "simple"
+   },
+  "keywords": ["biojs","tooltip"]
+}
