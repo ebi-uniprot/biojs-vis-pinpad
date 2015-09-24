@@ -9,7 +9,7 @@
 
 // browserify build config
 var buildDir = "build";
-var outputFile = "biojsvispinpad";
+var outputFile = "biojsVisPinpad";
 
 // packages
 var gulp   = require('gulp');
@@ -18,12 +18,15 @@ var gulp   = require('gulp');
 var browserify = require('browserify');
 var watchify = require('watchify')
 var uglify = require('gulp-uglify');
+var minifyCss = require('gulp-minify-css');
 
 
 // testing
 var mocha = require('gulp-mocha'); 
-var mochaPhantomJS = require('gulp-mocha-phantomjs'); 
+var mochaPhantomJS = require('gulp-mocha-phantomjs');
 
+// code coverage
+var istanbul = require('gulp-istanbul');
 
 // code style 
 var jshint = require('gulp-jshint'); 
@@ -34,6 +37,7 @@ var gzip = require('gulp-gzip');
 var rename = require('gulp-rename');
 var chmod = require('gulp-chmod');
 var streamify = require('gulp-streamify'); // converts streams into buffers (legacy support for old plugins)
+var watch = require('gulp-watch');
 
 // path tools
 var fs = require('fs');
@@ -50,28 +54,49 @@ var packageConfig = require('./package.json');
 gulp.task('build', ['build-browser', 'build-browser-gzip']);
 gulp.task('default', ['lint','test',  'build']);
 
-
-
+//test tasks
 gulp.task('lint', function() {
   return gulp.src('./lib/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
-
-
-
 gulp.task('test', ['test-unit', 'test-dom']);
 
 
-gulp.task('test-unit', function () {
-
-    return gulp.src('./test/unit/**/*.js', {read: false})
-
-        .pipe(mocha({reporter: 'spec',
-                    useColors: true}));
+gulp.task('test-unit', ['test-env'], function () {
+    return gulp.src(['./src/**/*.js', './lib/**/*.js'])
+        .pipe(istanbul())
+        .pipe(istanbul.hookRequire())
+        .on('finish', function() {
+            gulp.src('./test/unit/**/*.js', {
+                read: false
+            })
+                .pipe(mocha({
+                    reporter: 'xunit-file'
+                }))
+                .pipe(istanbul.writeReports());
+        });
 });
 
+gulp.task('test-env', ['init-test-reports'], function() {
+    env({
+        vars: {
+            XUNIT_FILE: 'reports/TEST-biojsVisPinpadTest.xml',
+            LOG_XUNIT: true
+        }
+    });
+});
+
+gulp.task('init-test-reports', ['clean-test-reports'], function() {
+    mkdirp('reports', function (err) {
+        if (err) console.error(err);
+    });
+});
+
+gulp.task('clean-test-reports', function(cb) {
+    del(['reports'], cb);
+});
 
 gulp.task('test-dom', ["build-test"], function () {
   return gulp
@@ -89,16 +114,11 @@ gulp.task('build-test',['init'], function() {
     .pipe(gulp.dest(buildDir));
 });
 
-
-
 gulp.task('test-watch', function() {
-   gulp.watch(['./src/**/*.js','./lib/**/*.js', './test/**/*.js'], ['test']);
+     gulp.watch(['./src/**/*.js','./lib/**/*.js', './test/**/*.js', './style/*.css'], ['test']);
 });
 
-
-
-
-
+//build tasks
 // will remove everything in build
 gulp.task('clean', function(cb) {
   del([buildDir], cb);
@@ -111,9 +131,17 @@ gulp.task('init', ['clean'], function() {
   });
 });
 
+gulp.task('copy-resources', ['init'], function() {
+        gulp.src("./font/*.*")
+                .pipe(gulp.dest(buildDir));
+        return gulp.src("./style/*.css")
+                .pipe(minifyCss({compatibility: 'ie8'}))
+                .pipe(gulp.dest(buildDir));
+});
+
 // browserify debug
-gulp.task('build-browser',['init'], function() {
-  var b = browserify({debug: true,hasExports: true});
+gulp.task('build-browser', ['copy-resources'], function() {
+  var b = browserify({debug: true, hasExports: true});
   exposeBundles(b);
   return b.bundle()
     .pipe(source(outputFile + ".js"))
@@ -122,8 +150,8 @@ gulp.task('build-browser',['init'], function() {
 });
 
 // browserify min
-gulp.task('build-browser-min',['init'], function() {
-  var b = browserify({hasExports: true, standalone: "biojs-vis-pinpad"});
+gulp.task('build-browser-min', ['copy-resources'], function() {
+  var b = browserify({hasExports: true});
   exposeBundles(b);
   return b.bundle()
     .pipe(source(outputFile + ".min.js"))
@@ -152,8 +180,8 @@ function exposeBundles(b){
 
 // watch task for browserify 
 // watchify has an internal cache -> subsequent builds are faster
-gulp.task('watch', function() {
-  var util = require('gulp-util')
+gulp.task('watch', ['copy-resources'], function() {
+    var util = require('gulp-util');
 
   var b = browserify({debug: true,hasExports: true, cache: {}, packageCache: {} });
   b.add("./" + packageConfig.main, {expose: packageConfig.name});

@@ -1,5 +1,103 @@
 .up_pp_container {}
-.up_pp_title {}
+.up_pp_mainTitle {
+    background-color: black;
+    height: 30px;
+}
 .up_pp_pad {
-    overflow: scroll;
+    overflow: auto;
+    overflow-y: scroll;
+}
+.up_pp_iconContainer {
+    background-color: #fff;
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    border-radius: 20px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #fff;
+}
+
+.up_pp_icon {
+    top: 2px;
+    left: -1px;
+    position: absolute;
+}
+
+.up_pp_category-name {
+    vertical-align: middle;
+    padding: .5em;
+    text-transform: capitalize;
+    background-color: #333333;
+    border: none;
+    cursor: pointer;
+}
+
+.up_pp_category-name.up_pftv_arrow-right:before {
+  content: ' ';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  border-left: 5px solid #333;
+  margin-right: 5px;
+}
+
+.up_pp_category-name.up_pftv_arrow-down:before {
+  content: ' ';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #333;
+  margin-right: 5px;
+}
+
+/*TODO*/
+.up_pftv_tooltip-container table {
+    font-weight: lighter;
+    font-size: .9em;
+    border: 2px solid #CCC;
+    border-spacing: 0;
+    border-collapse: collapse;
+    background-color: #FFF;
+    -webkit-box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.1);
+    box-shadow: 5px 5px 2px 0px rgba(0,0,0,0.1);
+}
+
+.up_pftv_tooltip-container table th {
+    text-transform: capitalize;
+    white-space: nowrap;
+    letter-spacing: .05em;
+    font-weight: lighter;
+    font-size: 1.1em;
+    background-color: #333;
+    line-height: 2em;
+    padding: 0  .7em;
+    color: #FFF;
+}
+
+.up_pftv_tooltip-container table td {
+    padding: .4em;
+    margin: 0;
+    border: 1px solid #CCC;
+}
+
+.up_pftv_tooltip-container td:first-child {
+  font-weight: normal;
+}
+
+.up_pftv_tooltip-container .up_pftv_evidence-col {
+  background-color: #E8E8E8;
+}
+
+.up_pftv_tooltip-container .up_pftv_evidence-source {
+  background-color: #F0F0F0;
+}
+.up_pftv_tooltip-container .up_pftv_evidence-source td:first-child {
+  text-align: right;
+  font-weight: lighter;
 }
