@@ -1,7 +1,13 @@
-node_modules
+build/
+node_modules/
+.sass-cache/
+coverage/
 .idea/
 *.log
 .DS_Store
-build
-coverage/lcov.info
+.info
 .coveralls.yml
+.project
+config.rb
+*.iml
+xunit.xml
