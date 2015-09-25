@@ -20,7 +20,7 @@
       "url": "https://github.com/ebi-uniprot/biojs-vis-pinpad/blob/master/LICENSE"
     }
   ],
-  "main": "lib/biojsVisPinpad.js",
+  "main": "lib/PinpadViewer.js",
   "scripts": {
     "test": "gulp test",
     "build": "gulp build",
@@ -60,7 +60,7 @@
   },
   "sniper": {
     "js": [
-      "/build/biojsVisPinpad.js"
+      "/build/PinpadViewer.js"
     ],
     "css": [
       "/build/pp_fontello.css",

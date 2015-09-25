@@ -9,27 +9,27 @@
 
 // browserify build config
 var buildDir = "build";
-var outputFile = "biojsVisPinpad";
+var outputFile = "PinpadViewer";
 
 // packages
 var gulp   = require('gulp');
 
 // browser builds
 var browserify = require('browserify');
-var watchify = require('watchify')
+var watchify = require('watchify');
 var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
 
 
 // testing
-var mocha = require('gulp-mocha'); 
+var mocha = require('gulp-mocha');
 var mochaPhantomJS = require('gulp-mocha-phantomjs');
 
 // code coverage
 var istanbul = require('gulp-istanbul');
 
-// code style 
-var jshint = require('gulp-jshint'); 
+// code style
+var jshint = require('gulp-jshint');
 
 // gulp helper
 var source = require('vinyl-source-stream'); // converts node streams into vinyl streams
@@ -82,7 +82,7 @@ gulp.task('test-unit', ['test-env'], function () {
 gulp.task('test-env', ['init-test-reports'], function() {
     env({
         vars: {
-            XUNIT_FILE: 'reports/TEST-biojsVisPinpadTest.xml',
+            XUNIT_FILE: 'reports/TEST-PinpadViewerTest.xml',
             LOG_XUNIT: true
         }
     });
@@ -159,7 +159,7 @@ gulp.task('build-browser-min', ['copy-resources'], function() {
     .pipe(streamify(uglify()))
     .pipe(gulp.dest(buildDir));
 });
- 
+
 gulp.task('build-browser-gzip', ['build-browser-min'], function() {
   return gulp.src(outputFileMin)
     .pipe(gzip({append: false, gzipOptions: { level: 9 }}))
@@ -178,7 +178,7 @@ function exposeBundles(b){
   }
 }
 
-// watch task for browserify 
+// watch task for browserify
 // watchify has an internal cache -> subsequent builds are faster
 gulp.task('watch', ['copy-resources'], function() {
     var util = require('gulp-util');

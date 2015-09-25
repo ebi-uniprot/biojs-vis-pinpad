@@ -1,7 +1,7 @@
 .up_pp_container {}
 .up_pp_mainTitle {
     background-color: black;
-    height: 30px;
+    padding: .5em;
 }
 .up_pp_pad {
     overflow: auto;
@@ -9,26 +9,37 @@
 }
 .up_pp_iconContainer {
     background-color: #fff;
-    position: absolute;
-    top: 12px;
-    left: 15px;
+    position: relative;
     border-radius: 20px;
     width: 20px;
     height: 20px;
     border: 1px solid #fff;
 }
 
-.up_pp_icon {
+.up_pp_icon, .up_pp_clickable-icon {
     top: 2px;
     left: -1px;
     position: absolute;
 }
 
+.up_pp_clickable-icon {
+    cursor: pointer;
+}
+
+/*Categories*/
+.up_pp_category-container {}
+
+.up_pp_category-header {
+    background-color: #333333;
+    padding: .5em;
+}
+
+.up_pp_category-pad {}
+
 .up_pp_category-name {
     vertical-align: middle;
-    padding: .5em;
     text-transform: capitalize;
-    background-color: #333333;
+    color: #ffffff;
     border: none;
     cursor: pointer;
 }
@@ -40,7 +51,7 @@
   height: 0;
   border-top: 5px solid transparent;
   border-bottom: 5px solid transparent;
-  border-left: 5px solid #333;
+  border-left: 5px solid #ffffff;
   margin-right: 5px;
 }
 
@@ -51,7 +62,7 @@
   height: 0;
   border-left: 5px solid transparent;
   border-right: 5px solid transparent;
-  border-top: 5px solid #333;
+  border-top: 5px solid #ffffff;
   margin-right: 5px;
 }
 
