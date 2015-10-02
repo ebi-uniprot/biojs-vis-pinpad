@@ -10,7 +10,7 @@ var instance = new app({
                 title: "Site 671-672",
                 information: {
                     description: "Cleavage; by beta-secretase",
-                    position: "671-672",
+                    number: 5,
                     more_information: ["info1", "info2"],
                     even_more: {
                         title: "See also",
@@ -20,7 +20,14 @@ var instance = new app({
                     and_more: {
                         anything: "See as well",
                         what: ["here", "there"]
-                    }
+                    },
+                    more_Info: [
+                        {
+                            "name": "PubMed",
+                            "id": "12034808",
+                            "url": "http://www.ncbi.nlm.nih.gov/pubmed/12034808"
+                        }
+                    ]
                 }
             }
         ]
@@ -28,8 +35,10 @@ var instance = new app({
     , text: 'biojs'
 });
 instance.addElement({
-    category: "Domains & sites"
+    category: "Domains & sites",
+    sections: []
 });
 instance.addElement({
-    category: "PTM"
+    category: "PTM",
+    sections: []
 });
