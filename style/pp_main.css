@@ -100,14 +100,11 @@
     border: 1px solid #CCC;
 }
 
-.up_pp_category-pad .up_pftv_link-title {
-  background-color: #E8E8E8;
+.up_pp_element-section {
+    background-color: #B3B3B3;
+    text-align: center;
 }
 
-.up_pp_category-pad .up_pftv_link-list {
-  background-color: #F0F0F0;
-}
-.up_pftv_tooltip-container .up_pftv_link-list td:first-child {
-  text-align: right;
-  font-weight: lighter;
+.up_pp_table_subsection {
+    font-weight: bold;
 }
