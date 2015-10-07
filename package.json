@@ -60,7 +60,8 @@
   },
   "sniper": {
     "js": [
-      "/build/PinpadViewer.js"
+      "/build/PinpadViewer.js",
+      "/snippets/data/data.js"
     ],
     "css": [
       "/build/pp_fontello.css",
