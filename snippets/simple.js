@@ -4,6 +4,7 @@ var instance = new app({
     el: yourDiv
     , width: '250px'
     , height: '300px'
+    , highlightColor: 'green'
     , toPin: data
     , text: 'biojs'
 });

@@ -5,7 +5,7 @@
     padding: .5em;
 }
 .up_pp_pad {
-    overflow: auto;
+    overflow-x: auto;
     overflow-y: scroll;
 }
 .up_pp_iconContainer {
@@ -61,7 +61,6 @@
 .up_pp_category-pad {}
 
 .up_pp_category-name, .up_pp_element-name {
-    white-space: nowrap;
     vertical-align: middle;
     text-transform: capitalize;
     letter-spacing: .05em;

@@ -1,5 +1,6 @@
 var data = {
     category: "Domains & sites",
+    id: 'ft_14',
     sections: [
         {
             title: "Site 671-672",
@@ -105,9 +106,10 @@ var data = {
 
 var site580 = {
     category: "Domains & sites",
+    id: 'ft_18',
     sections: [
         {
-            title: "Site 580",
+            title: "Site 680",
             information: {
                 frequency: 0.005,
                 subsection_one: {
@@ -123,6 +125,7 @@ var site580 = {
 
 var site342 = {
     category: "Domains & sites",
+    id: 'ft_1',
     sections: [
         {
             title: "Site 342",
@@ -134,6 +137,7 @@ var site342 = {
 };
 var site425 = {
     category: "Domains & sites",
+    id: 'ft_1',
     sections: [
         {
             title: "Site 425",
