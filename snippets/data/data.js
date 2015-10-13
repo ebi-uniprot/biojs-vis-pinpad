@@ -1,4 +1,7 @@
-var data = {
+var categories = ["Domains & sites", "Molecule processing", "Post translational modification", "Sequence information",
+    "Structural features", "Topology", "Mutagenesis", "Variants"];
+
+var site671 = {
     category: "Domains & sites",
     id: 'ft_14',
     sections: [
@@ -102,8 +105,7 @@ var data = {
             }
         }
     ]
-};
-
+}
 var site580 = {
     category: "Domains & sites",
     id: 'ft_18',
@@ -149,5 +151,12 @@ var site425 = {
 };
 var catPTM = {
     category: "PTM",
-    sections: []
+    sections: [
+        {
+            title: "Any PTM with a really long title",
+            information: {
+                something: 0.005
+            }
+        }
+    ]
 };
