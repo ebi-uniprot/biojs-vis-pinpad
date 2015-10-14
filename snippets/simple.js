@@ -14,7 +14,6 @@ var instance = new app({
     , width: '250px'
     , height: '300px'
     , highlightColor: 'green'
-    , toPin: categories
     , text: 'biojs'
 });
 
