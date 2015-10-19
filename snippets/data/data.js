@@ -1,6 +1,3 @@
-var categories = ["Domains & sites", "Molecule processing", "Post translational modification", "Sequence information",
-    "Structural features", "Topology", "Mutagenesis", "Variants"];
-
 var site671 = {
     category: "Domains & sites",
     id: 'ft_14',
@@ -105,7 +102,8 @@ var site671 = {
             }
         }
     ]
-}
+};
+
 var site580 = {
     category: "Domains & sites",
     id: 'ft_18',

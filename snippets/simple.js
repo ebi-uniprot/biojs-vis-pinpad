@@ -14,6 +14,7 @@ var instance = new app({
     , width: '250px'
     , height: '300px'
     , highlightColor: 'green'
+    , toPin: site671
     , text: 'biojs'
 });
 
@@ -26,3 +27,23 @@ addButton.onclick = function() {
         console.log('No more test elements to add');
     }
 };
+
+instance.getDispatcher().on('ready', function(obj) {
+    console.log('Ready');
+    console.log(obj);
+});
+
+instance.getDispatcher().on('duplication', function(obj) {
+    console.log('Element already exist');
+    console.log(obj);
+});
+
+instance.getDispatcher().on('add', function(obj) {
+    console.log('Something added');
+    console.log(obj);
+});
+
+instance.getDispatcher().on('remove', function(obj) {
+    console.log('Something removed');
+    console.log(obj);
+});
