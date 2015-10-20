@@ -14,12 +14,7 @@
   "bugs": {
     "url": "https://github.com/ebi-uniprot/biojs-vis-pinpad/issues"
   },
-  "licenses": [
-    {
-      "type": "Apache 2",
-      "url": "https://github.com/ebi-uniprot/biojs-vis-pinpad/blob/master/LICENSE"
-    }
-  ],
+  "license": "Apache-2.0",
   "main": "lib/PinpadViewer.js",
   "scripts": {
     "test": "gulp test",
@@ -61,8 +56,13 @@
   },
   "sniper": {
     "js": [
+      "/build/external/d3.min.js",
+      "/build/external/underscore.min.js",
       "/build/PinpadViewer.js",
       "/snippets/data/data.js"
+    ],
+    "exposed": [
+      "d3", "underscore"
     ],
     "css": [
       "/build/pp_fontello.css",

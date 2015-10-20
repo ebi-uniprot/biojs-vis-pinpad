@@ -20,7 +20,6 @@ var watchify = require('watchify');
 var uglify = require('gulp-uglify');
 var minifyCss = require('gulp-minify-css');
 
-
 // testing
 var mocha = require('gulp-mocha');
 var mochaPhantomJS = require('gulp-mocha-phantomjs');
@@ -140,6 +139,10 @@ gulp.task('copy-resources', ['init'], function() {
 });
 
 // browserify debug
+gulp.task('build-deps', ['init'], function() {
+
+});
+
 gulp.task('build-browser', ['copy-resources'], function() {
   var b = browserify({debug: true, hasExports: true});
   exposeBundles(b);
@@ -170,12 +173,20 @@ gulp.task('build-browser-gzip', ['build-browser-min'], function() {
 // exposes the main package
 // + checks the config whether it should expose other packages
 function exposeBundles(b){
-  b.add("./" + packageConfig.main, {expose: packageConfig.name });
-  if(packageConfig.sniper !== undefined && packageConfig.sniper.exposed !== undefined){
-    for(var i=0; i<packageConfig.sniper.exposed.length; i++){
-      b.require(packageConfig.sniper.exposed[i]);
+    b.add("./" + packageConfig.main, {expose: packageConfig.name });
+    if(packageConfig.sniper !== undefined && packageConfig.sniper.exposed !== undefined){
+        for(var i=0; i<packageConfig.sniper.exposed.length; i++){
+            b.external(packageConfig.sniper.exposed[i]);
+            var br = browserify();
+            br.require(packageConfig.sniper.exposed[i]);
+            br.transform('envify');
+            br.bundle()
+                .pipe(source('./external/' + packageConfig.sniper.exposed[i] + '.min.js'))
+                .pipe(chmod(644))
+                .pipe(streamify(uglify()))
+                .pipe(gulp.dest(buildDir));
+        }
     }
-  }
 }
 
 // watch task for browserify
