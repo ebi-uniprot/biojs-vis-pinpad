@@ -20,15 +20,8 @@ chai.should();
 // requires your main app (specified in index.js)
 var biojsvispinpad = require('../..');
 
-
-describe('biojs-vis-pinpad module', function(){
-  describe('#hello()', function(){
-    it('should return a hello', function(){
-
-      assert.equal(biojsvispinpad.hello('biojs'), ("hello biojs"));
-      
-      // alternative styles
-      biojsvispinpad.hello('biojs').should.equal("hello biojs");
+describe('PinpadViewerTest', function(){
+    it('should do nothing', function(){
+      assert.equal(biojsvispinpad !== undefined, true);
     });
-  });
 });
