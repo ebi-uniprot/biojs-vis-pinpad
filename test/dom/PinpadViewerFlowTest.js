@@ -297,4 +297,39 @@ describe('PinPadViewerFlowTest', function(){
             expect(newElem.content.open).to.be.undefined;
         });
     });
+
+    describe('removing the middle element in first category', function() {
+        it('should remove the element', function() {
+            var elTrashes = document.querySelectorAll('.up_pp_element-header .up-pp-icon-trash');
+            var evt = document.createEvent("MouseEvents");
+            evt.initMouseEvent("click", true, true, window, 1, 1, 1, 1, 1, false, false, false, false, 0, elTrashes[1]);
+            elTrashes[1].dispatchEvent(evt); //close
+            flushAllD3Transitions();
+
+            assert.equal(instance.categories[0].data.length, 2, 'only two elements in data list now');
+            assert.equal(instance.categories[0].elements.length, 2, 'only two elements in dom list now');
+        });
+        it('should remove the element in the DOM', function() {
+            var elements = document.querySelectorAll('.up_pp_element-header');
+            assert.equal(elements.length, 3, 'only 3 elements in total');
+        });
+    });
+
+    describe('removing the first category', function() {
+        it('should remove the category in the DOM', function() {
+            var catTrashes = document.querySelectorAll('.up_pp_category-header .up-pp-icon-trash');
+            var evt = document.createEvent("MouseEvents");
+            evt.initMouseEvent("click", true, true, window, 1, 1, 1, 1, 1, false, false, false, false, 0, catTrashes[0]);
+            catTrashes[0].dispatchEvent(evt); //close
+            flushAllD3Transitions();
+
+            var categories = document.querySelectorAll('.up_pp_category-header');
+            assert.equal(categories.length, 1, 'only 1 category in total');
+        });
+        it('should remove the category in the data', function() {
+            assert.equal(instance.categories.length, 1, 'only 1 category now');
+            assert.equal(instance.categories[0].data.length, 1, 'only 1 element in data list now');
+            assert.equal(instance.categories[0].elements.length, 1, 'only 1 element in dom list now');
+        })
+    });
 });
