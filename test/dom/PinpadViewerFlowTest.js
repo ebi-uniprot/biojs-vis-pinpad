@@ -21,6 +21,7 @@ var PinPadViewer = require('../..');
 
 describe('PinPadViewerFlowTest', function(){
     var instance;
+    var elemField = 'description';
 
     var flushAllD3Transitions = function() {
         var now = Date.now;
@@ -71,7 +72,6 @@ describe('PinPadViewerFlowTest', function(){
                 }
             ]
         };
-        var elemField = 'description';
         var catContainer, element, pad;
         it('should add a new category and element data', function() {
             var newElem = instance.addElement(addCat1Elem1);
@@ -162,6 +162,139 @@ describe('PinPadViewerFlowTest', function(){
                 }
             ]
         };
-        var elemField = 'description';
+        var newElem;
+        it('should keep only one category', function() {
+            newElem = instance.addElement(addCat1Elem2);
+            assert.equal(instance.categories.length, 1, 'still only one category');
+            assert.equal(instance.categories[0].data.length, 2, 'two elements');
+        });
+        it('should add a second element', function() {
+            assert.equal(instance.categories[0].data[1].sortAttribute, addCat1Elem2.sections[0].title,
+                'element title');
+            assert.equal(instance.categories[0].data[1].id, addCat1Elem2.id,
+                'element id');
+            assert.equal(instance.categories[0].data[1].sections, addCat1Elem2.sections,
+                'element sections');
+            assert.equal(newElem.content, instance.categories[0].data[1], 'element content');
+            expect(newElem.content.open).to.be.undefined;
+        });
+        it('should keep the first element closed', function() {
+            assert.equal(instance.categories[0].elements[0].content.open, false,
+                'first element is still closed');
+        });
+    });
+
+    describe('closing a category', function() {
+        it('should close the first category', function() {
+            var catArrow = document.querySelector('.up_pp_category-name');
+            assert.equal(catArrow.getAttribute('class'), 'up_pp_category-name up_pftv_arrow-down', 'open class');
+            var evt = document.createEvent("MouseEvents");
+            evt.initMouseEvent("click", true, true, window, 1, 1, 1, 1, 1, false, false, false, false, 0, catArrow);
+            catArrow.dispatchEvent(evt); //close
+            flushAllD3Transitions();
+
+            assert.equal(instance.categories[0].open, false, 'category is close');
+            assert.equal(catArrow.getAttribute('class'), 'up_pp_category-name up_pftv_arrow-right', 'close class');
+        })
+    });
+
+    describe('adding an element in the middle', function() {
+        var addCat1Elem3 = {
+            category: "Domains & sites",
+            id: 'ft_3',
+            sections: [
+                {
+                    title: "Site 1-2",
+                    information: {
+                        description: "Cleavage; by beta-secretase"
+                    }
+                }
+            ]
+        };
+        it('should add a third element into the second position', function() {
+            var newElem = instance.addElement(addCat1Elem3);
+            assert.equal(instance.categories[0].data[1].sortAttribute, addCat1Elem3.sections[0].title,
+                'element title');
+            assert.equal(instance.categories[0].data[1].id, addCat1Elem3.id,
+                'element id');
+            assert.equal(instance.categories[0].data[1].sections, addCat1Elem3.sections,
+                'element sections');
+            assert.equal(newElem.content, instance.categories[0].data[1], 'element content');
+            expect(newElem.content.open).to.be.undefined;
+        });
+        it('should open the category after insertion', function() {
+            var catArrow = document.querySelector('.up_pp_category-name');
+            assert.equal(catArrow.getAttribute('class'), 'up_pp_category-name up_pftv_arrow-down', 'open class');
+            assert.equal(instance.categories[0].open, true, 'category is open');
+        });
+        it('should keep the first added element closed and the others undefined', function() {
+            var allElArrows = document.querySelectorAll('.up_pp_element-name');
+            assert.equal(allElArrows[0].getAttribute('class'), 'up_pp_element-name up_pftv_arrow-right', 'close class');
+            assert.equal(instance.categories[0].elements[0].content.open, false,
+                'first element is still closed');
+
+            assert.equal(allElArrows[1].getAttribute('class'), 'up_pp_element-name up_pftv_arrow-down', 'open class');
+            assert.equal(allElArrows[2].getAttribute('class'), 'up_pp_element-name up_pftv_arrow-down', 'open class');
+            expect(instance.categories[0].elements[1].content.open).to.be.undefined;
+            expect(instance.categories[0].elements[2].content.open).to.be.undefined;
+        });
+    });
+
+    describe('unsuccessfully adding an element with a duplicated id', function() {
+        var addDuplicated = {
+            category: "Anything here",
+            id: 'ft_3',
+            sections: [
+                {
+                    title: "Domain 10-13",
+                    information: {
+                        description: "Not provided"
+                    }
+                }
+            ]
+        };
+        it('should not allow adding a duplicated id', function() {
+            instance.addElement(addDuplicated);
+
+            var allElArrows = document.querySelectorAll('.up_pp_element-name');
+            assert.equal(allElArrows.length, 3, "still three elements");
+
+            var allCatArrows = document.querySelectorAll('.up_pp_category-name');
+            assert.equal(allCatArrows.length, 1, "still one category");
+        });
+    });
+
+    describe('adding an element in a new category', function() {
+        var addElem1Cat2 = {
+            category: "Post translational modification",
+            id: 'ft_4',
+            sections: [
+                {
+                    title: "Modified residue",
+                    information: {
+                        description: "Phosphoserine; by CK1"
+                    }
+                }
+            ]
+        };
+        var newElem;
+        it('should add a new category', function() {
+            newElem = instance.addElement(addElem1Cat2);
+            assert.equal(instance.categories.length, 2, 'two categories');
+            var allCats = document.querySelectorAll('.up_pp_category-container');
+            assert.equal(allCats.length, 2, "two DOM categories");
+            assert.equal(instance.categories[0].data.length, 3, 'three elements');
+            assert.equal(instance.categories[1].data.length, 1, 'one elements');
+        });
+        it('should add a new element', function() {
+            assert.equal(instance.categories[1].data[0].sortAttribute, addElem1Cat2.sections[0].title,
+                'element title');
+            assert.equal(instance.categories[1].data[0].id, addElem1Cat2.id,
+                'element id');
+            assert.equal(instance.categories[1].data[0].sections, addElem1Cat2.sections,
+                'element sections');
+            assert.equal(newElem.content, instance.categories[1].data[0], 'element content');
+            expect(newElem.content.open).to.be.undefined;
+        });
     });
 });
