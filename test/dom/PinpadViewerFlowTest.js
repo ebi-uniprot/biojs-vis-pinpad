@@ -284,7 +284,7 @@ describe('PinPadViewerFlowTest', function(){
             var allCats = document.querySelectorAll('.up_pp_category-container');
             assert.equal(allCats.length, 2, "two DOM categories");
             assert.equal(instance.categories[0].data.length, 3, 'three elements');
-            assert.equal(instance.categories[1].data.length, 1, 'one elements');
+            assert.equal(instance.categories[1].data.length, 1, 'one element');
         });
         it('should add a new element', function() {
             assert.equal(instance.categories[1].data[0].sortAttribute, addElem1Cat2.sections[0].title,
@@ -331,5 +331,45 @@ describe('PinPadViewerFlowTest', function(){
             assert.equal(instance.categories[0].data.length, 1, 'only 1 element in data list now');
             assert.equal(instance.categories[0].elements.length, 1, 'only 1 element in dom list now');
         })
+    });
+
+    describe('removing element with the API method', function() {
+        var addElem2Cat2 = {
+            category: "Post translational modification",
+            id: 'ft_41',
+            sections: [
+                {
+                    title: "Modified residue",
+                    information: {
+                        description: "Phosphoserine; by CK2"
+                    }
+                }
+            ]
+        };
+        it('should add ft_41 element', function() {
+            instance.addElement(addElem2Cat2);
+            assert.equal(instance.categories[0].data.length, 2, 'two elements');
+        });
+        it('should remove ft_4 element', function() {
+            instance.removeElement('ft_4');
+            assert.equal(instance.categories[0].elements.length, 1, 'only 1 element');
+            assert.equal(instance.categories[0].data.length, 1, 'only 1 element in data');
+
+            var elements = document.querySelectorAll('.up_pp_element-header');
+            assert.equal(elements.length, 1, 'only 1 element in DOM');
+        });
+    });
+
+    describe('removing category with the API method', function() {
+        it('should remove category Post translational modification', function() {
+            instance.removeCategory('Post translational modification');
+            assert.equal(instance.categories.length, 0, 'no categories');
+
+            var category = document.querySelectorAll('.up_pp_category-header');
+            assert.equal(category.length, 0, 'no categories in DOM');
+
+            var elements = document.querySelectorAll('.up_pp_element-header');
+            assert.equal(elements.length, 0, 'no elements in DOM');
+        });
     });
 });

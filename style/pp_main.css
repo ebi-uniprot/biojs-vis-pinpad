@@ -1,5 +1,7 @@
 /*PinPad*/
-.up_pp_main-container {}
+.up_pp_main-container {
+    border: 1px solid #000;
+}
 .up_pp_mainTitle {
     background-color: black;
     padding: .5em;
@@ -51,7 +53,9 @@
 }
 
 /*Categories*/
-.up_pp_category-container {}
+.up_pp_category-container {
+    border-top: 1px solid whitesmoke;
+}
 
 .up_pp_category-header {
     background-color: #333333;
@@ -87,6 +91,7 @@
 .up_pp_element-header {
     background-color: #595959;
     padding: .5em .5em .5em 1.4em;
+    border-top: 1px solid whitesmoke;
 }
 
 .up_pp_category-pad table td:first-child {

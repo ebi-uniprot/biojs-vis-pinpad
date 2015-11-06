@@ -8,6 +8,16 @@ var addButton = document.createElement('button');
 addButton.innerHTML = "Add element";
 addDiv.appendChild(addButton);
 
+var removeDiv = document.createElement('div');
+yourDiv.appendChild(removeDiv);
+var idText = document.createElement('textarea');
+idText.rows = 1;
+idText.cols = 10;
+removeDiv.appendChild(idText);
+var removeButton = document.createElement('button');
+removeButton.innerHTML = "Remove element";
+removeDiv.appendChild(removeButton);
+
 var app = require("biojs-vis-pinpad");
 var instance = new app({
     el: appDiv
@@ -24,6 +34,15 @@ addButton.onclick = function() {
         instance.addElement(elem);
     } else {
         console.log('No more test elements to add');
+    }
+};
+
+removeButton.onclick = function() {
+    console.log('removeButton.onclick');
+    console.log(idText);
+    var text = idText.value;
+    if (text.length !== 0) {
+        instance.removeElement(text);
     }
 };
 
