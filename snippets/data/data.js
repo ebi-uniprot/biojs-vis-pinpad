@@ -158,3 +158,41 @@ var catPTM = {
         }
     ]
 };
+var variant = {
+    "category": "Variants",
+    "id": "ft_206",
+    "sections": [{
+        "title": "missense 301-301",
+        "information": {
+            "source": "Large scale studies",
+            "description": "primary tissue(s): large intestine",
+            "mutation": "R > G",
+            "polyphen": "probably damaging, score 0.9309999942779541",
+            "sift": "deleterious, score 0",
+            "styled_evidence_1": {
+                "key": "Evidence",
+                "key_style": "background-color: #E8E8E8",
+                "value": "Imported",
+                "value_style": "background-color: #E8E8E8"
+            },
+            "styled_evidenceArray_cosmic_1": {
+                "key": "cosmic",
+                "key_style": "text-align: right; background-color: #F0F0F0",
+                "value": [{
+                    "value": "COSM1413501",
+                    "link": "http://cancer.sanger.ac.uk/cosmic/mutation/overview?id=1413501"
+                }],
+                "value_style": "background-color: #F0F0F0"
+            },
+            "styled_evidenceArray_cosmic_study_1": {
+                "key": "cosmic_study",
+                "key_style": "text-align: right; background-color: #F0F0F0",
+                "value": [{
+                    "value": "COSU:376",
+                    "link": "http://cancer.sanger.ac.uk/cosmic/study/overview?study_id=376"
+                }],
+                "value_style": "background-color: #F0F0F0"
+            }
+        }
+    }]
+};

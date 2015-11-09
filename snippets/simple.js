@@ -21,13 +21,13 @@ removeDiv.appendChild(removeButton);
 var app = require("biojs-vis-pinpad");
 var instance = new app({
     el: appDiv
-    , width: '250px'
-    , height: '300px'
+    , width: '220px'
+    , height: '320px'
     , highlightColor: 'green'
     , text: 'biojs'
 });
 
-var toAdd = [site671, site580, catPTM, site342, site425];
+var toAdd = [site671, site580, catPTM, site342, site425, variant];
 addButton.onclick = function() {
     if (toAdd.length != 0) {
         var elem = toAdd.shift();
