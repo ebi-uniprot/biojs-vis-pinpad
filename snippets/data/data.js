@@ -1,6 +1,11 @@
 var site671 = {
     category: "Domains & sites",
     id: 'ft_14',
+    ordering: {
+        type: 'Site',
+        start: 671,
+        end: 672
+    },
     sections: [
         {
             title: "Site 671-672",
@@ -107,6 +112,11 @@ var site671 = {
 var site580 = {
     category: "Domains & sites",
     id: 'ft_18',
+    ordering: {
+        type: 'Site',
+        start: 680,
+        end: 680
+    },
     sections: [
         {
             title: "Site 680",
@@ -126,6 +136,11 @@ var site580 = {
 var site342 = {
     category: "Domains & sites",
     id: 'ft_1',
+    ordering: {
+        type: 'Site',
+        start: 342,
+        end: 342
+    },
     sections: [
         {
             title: "Site 342",
@@ -135,9 +150,15 @@ var site342 = {
         }
     ]
 };
+
 var site425 = {
     category: "Domains & sites",
     id: 'ft_1',
+    ordering: {
+        type: 'Site',
+        start: 425,
+        end: 425
+    },
     sections: [
         {
             title: "Site 425",
@@ -147,8 +168,13 @@ var site425 = {
         }
     ]
 };
+
 var catPTM = {
     category: "PTM",
+    id: 'ft_123',
+    ordering: {
+        type: 'res_mod'
+    },
     sections: [
         {
             title: "Any PTM with a really long title",
@@ -161,6 +187,11 @@ var catPTM = {
 var variant = {
     "category": "Variants",
     "id": "ft_206",
+    ordering: {
+        type: 'missense',
+        start: 301,
+        end: 301
+    },
     "sections": [{
         "title": "missense 301-301",
         "information": {

@@ -17,7 +17,7 @@ var expect = chai.expect;
 var yourDiv = document.getElementById('mocha');
 
 // requires your main app (specified in index.js)
-var PinPadViewer = require('../..');
+var PinPad = require('../..');
 
 describe('PinPadViewerFlowTest', function(){
     var instance;
@@ -31,11 +31,14 @@ describe('PinPadViewerFlowTest', function(){
     };
 
     before(function(done) {
-        instance = new PinPadViewer({
-            el: yourDiv
-            , width: '250px'
-            , height: '300px'
-            , highlightColor: 'green'
+        instance = new PinPad({
+            ordering: ['type', 'start', 'end'],
+            options: {
+                el: yourDiv
+                , width: '250px'
+                , height: '300px'
+                , highlightColor: 'green'
+            }
         });
         done();
     });
@@ -63,6 +66,11 @@ describe('PinPadViewerFlowTest', function(){
         var addCat1Elem1 = {
             category: "Domains & sites",
             id: 'ft_1',
+            ordering: {
+                type: 'region',
+                start: 181,
+                end: 188
+            },
             sections: [
                 {
                     title: "Region of interest 181-188",
@@ -74,18 +82,19 @@ describe('PinPadViewerFlowTest', function(){
         };
         var catContainer, element, pad;
         it('should add a new category and element data', function() {
-            var newElem = instance.addElement(addCat1Elem1);
-            assert.equal(instance.categories.length, 1, 'only one category');
-            assert.equal(instance.categories[0].title, addCat1Elem1.category, 'category title');
-            assert.equal(instance.categories[0].data.length, 1, 'only one element');
-            assert.equal(instance.categories[0].data[0].sortAttribute, addCat1Elem1.sections[0].title,
-                'element title');
-            assert.equal(instance.categories[0].data[0].id, addCat1Elem1.id,
-                'element id');
-            assert.equal(instance.categories[0].data[0].sections, addCat1Elem1.sections,
-                'element sections');
-            assert.equal(newElem.content, instance.categories[0].data[0], 'element content');
-            expect(newElem.content.open).to.be.undefined;
+            instance.addElement(addCat1Elem1);
+            assert.equal(instance.model.categories.length, 1, 'only one category in model');
+            assert.equal(instance.model.categories[0].title, addCat1Elem1.category, 'model category title');
+            assert.equal(instance.model.categories[0].elements.length, 1, 'only one element in model');
+            assert.equal(instance.model.categories[0].elements[0].id, addCat1Elem1.id, 'model element id');
+            assert.equal(instance.model.categories[0].elements[0].sections, addCat1Elem1.sections, 'model element' +
+                ' sections');
+
+            assert.equal(instance.viewer.categories.length, 1, 'only one category in view');
+            assert.equal(instance.viewer.categories[0].title, addCat1Elem1.category, 'view category title');
+            assert.equal(instance.model.categories[0].elements.length, 1, 'only one element in model');
+            assert.equal(instance.model.categories[0].elements[0].id, addCat1Elem1.id, 'model element id');
+            expect(instance.model.categories[0].elements[0].open).to.be.undefined;
         });
         it('should add a new category to dom', function() {
             catContainer = document.getElementsByClassName('up_pp_category-container');
@@ -144,7 +153,7 @@ describe('PinPadViewerFlowTest', function(){
             elArrow.dispatchEvent(evt); //close
             flushAllD3Transitions();
 
-            assert.equal(instance.categories[0].elements[0].content.open, false, 'element is close');
+            assert.equal(instance.viewer.categories[0].elements[0].open, false, 'element is close');
             assert.equal(elArrow.getAttribute('class'), 'up_pp_element-name up_pftv_arrow-right', 'close class');
         });
     });
@@ -153,6 +162,11 @@ describe('PinPadViewerFlowTest', function(){
         var addCat1Elem2 = {
             category: "Domains & sites",
             id: 'ft_2',
+            ordering: {
+                type: 'site',
+                start: 57,
+                end: 57
+            },
             sections: [
                 {
                     title: "Site 57-57",
@@ -162,24 +176,22 @@ describe('PinPadViewerFlowTest', function(){
                 }
             ]
         };
-        var newElem;
         it('should keep only one category', function() {
-            newElem = instance.addElement(addCat1Elem2);
-            assert.equal(instance.categories.length, 1, 'still only one category');
-            assert.equal(instance.categories[0].data.length, 2, 'two elements');
+            instance.addElement(addCat1Elem2);
+            assert.equal(instance.model.categories.length, 1, 'still only one category in model');
+            assert.equal(instance.viewer.categories.length, 1, 'still only one category in view');
         });
-        it('should add a second element', function() {
-            assert.equal(instance.categories[0].data[1].sortAttribute, addCat1Elem2.sections[0].title,
-                'element title');
-            assert.equal(instance.categories[0].data[1].id, addCat1Elem2.id,
-                'element id');
-            assert.equal(instance.categories[0].data[1].sections, addCat1Elem2.sections,
-                'element sections');
-            assert.equal(newElem.content, instance.categories[0].data[1], 'element content');
-            expect(newElem.content.open).to.be.undefined;
+        it('should have now a second element', function() {
+            assert.equal(instance.model.categories[0].elements.length, 2, 'two elements in model');
+            assert.equal(instance.model.categories[0].elements[1].id, addCat1Elem2.id, 'second element id in model');
+            assert.equal(instance.model.categories[0].elements[1].sections, addCat1Elem2.sections, 'element sections');
+
+            assert.equal(instance.viewer.categories[0].elements.length, 2, 'two elements in view');
+            assert.equal(instance.viewer.categories[0].elements[1].id, addCat1Elem2.id, 'second element id in view');
+            expect(instance.viewer.categories[0].elements[1].open).to.be.undefined;
         });
         it('should keep the first element closed', function() {
-            assert.equal(instance.categories[0].elements[0].content.open, false,
+            assert.equal(instance.viewer.categories[0].elements[0].open, false,
                 'first element is still closed');
         });
     });
@@ -193,7 +205,7 @@ describe('PinPadViewerFlowTest', function(){
             catArrow.dispatchEvent(evt); //close
             flushAllD3Transitions();
 
-            assert.equal(instance.categories[0].open, false, 'category is close');
+            assert.equal(instance.viewer.categories[0].open, false, 'category is close');
             assert.equal(catArrow.getAttribute('class'), 'up_pp_category-name up_pftv_arrow-right', 'close class');
         })
     });
@@ -202,6 +214,11 @@ describe('PinPadViewerFlowTest', function(){
         var addCat1Elem3 = {
             category: "Domains & sites",
             id: 'ft_3',
+            ordering: {
+                type: 'site',
+                start: 1,
+                end: 2
+            },
             sections: [
                 {
                     title: "Site 1-2",
@@ -212,31 +229,32 @@ describe('PinPadViewerFlowTest', function(){
             ]
         };
         it('should add a third element into the second position', function() {
-            var newElem = instance.addElement(addCat1Elem3);
-            assert.equal(instance.categories[0].data[1].sortAttribute, addCat1Elem3.sections[0].title,
-                'element title');
-            assert.equal(instance.categories[0].data[1].id, addCat1Elem3.id,
-                'element id');
-            assert.equal(instance.categories[0].data[1].sections, addCat1Elem3.sections,
-                'element sections');
-            assert.equal(newElem.content, instance.categories[0].data[1], 'element content');
-            expect(newElem.content.open).to.be.undefined;
+            instance.addElement(addCat1Elem3);
+
+            assert.equal(instance.model.categories[0].elements.length, 3, 'three elements in model');
+            assert.equal(instance.model.categories[0].elements[1].id, addCat1Elem3.id, 'middle element id in model');
+            assert.equal(instance.model.categories[0].elements[1].sections, addCat1Elem3.sections, 'element sections');
+
+            assert.equal(instance.viewer.categories[0].elements.length, 3, 'three elements in view');
+            assert.equal(instance.viewer.categories[0].elements[1].id, addCat1Elem3.id, 'middle element id in view');
+            expect(instance.viewer.categories[0].elements[1].open).to.be.undefined;
         });
         it('should open the category after insertion', function() {
             var catArrow = document.querySelector('.up_pp_category-name');
             assert.equal(catArrow.getAttribute('class'), 'up_pp_category-name up_pftv_arrow-down', 'open class');
-            assert.equal(instance.categories[0].open, true, 'category is open');
+            assert.equal(instance.viewer.categories[0].open, true, 'category is open');
         });
         it('should keep the first added element closed and the others undefined', function() {
             var allElArrows = document.querySelectorAll('.up_pp_element-name');
-            assert.equal(allElArrows[0].getAttribute('class'), 'up_pp_element-name up_pftv_arrow-right', 'close class');
-            assert.equal(instance.categories[0].elements[0].content.open, false,
+            assert.equal(allElArrows[0].getAttribute('class'), 'up_pp_element-name up_pftv_arrow-right', 'close' +
+                ' class');
+            assert.equal(instance.viewer.categories[0].elements[0].open, false,
                 'first element is still closed');
 
             assert.equal(allElArrows[1].getAttribute('class'), 'up_pp_element-name up_pftv_arrow-down', 'open class');
             assert.equal(allElArrows[2].getAttribute('class'), 'up_pp_element-name up_pftv_arrow-down', 'open class');
-            expect(instance.categories[0].elements[1].content.open).to.be.undefined;
-            expect(instance.categories[0].elements[2].content.open).to.be.undefined;
+            expect(instance.viewer.categories[0].elements[1].open).to.be.undefined;
+            expect(instance.viewer.categories[0].elements[2].open).to.be.undefined;
         });
     });
 
@@ -253,9 +271,12 @@ describe('PinPadViewerFlowTest', function(){
                 }
             ]
         };
-        it('should not allow adding a duplicated id', function() {
+        it('should not have a duplicated id', function() {
             instance.addElement(addDuplicated);
-
+            assert.equal(instance.model.categories[0].elements.length, 3, 'still three elements in model');
+            assert.equal(instance.viewer.categories[0].elements.length, 3, 'still three elements in view');
+        });
+        it('should not have a duplicated id in DOM', function() {
             var allElArrows = document.querySelectorAll('.up_pp_element-name');
             assert.equal(allElArrows.length, 3, "still three elements");
 
@@ -277,24 +298,23 @@ describe('PinPadViewerFlowTest', function(){
                 }
             ]
         };
-        var newElem;
         it('should add a new category', function() {
-            newElem = instance.addElement(addElem1Cat2);
-            assert.equal(instance.categories.length, 2, 'two categories');
+            instance.addElement(addElem1Cat2);
+
+            assert.equal(instance.model.categories.length, 2, 'two categories in model');
+            assert.equal(instance.viewer.categories.length, 2, 'two categories in view');
+
             var allCats = document.querySelectorAll('.up_pp_category-container');
             assert.equal(allCats.length, 2, "two DOM categories");
-            assert.equal(instance.categories[0].data.length, 3, 'three elements');
-            assert.equal(instance.categories[1].data.length, 1, 'one element');
+            assert.equal(instance.viewer.categories[0].elements.length, 3, 'three elements');
+            assert.equal(instance.viewer.categories[1].elements.length, 1, 'one element');
         });
         it('should add a new element', function() {
-            assert.equal(instance.categories[1].data[0].sortAttribute, addElem1Cat2.sections[0].title,
-                'element title');
-            assert.equal(instance.categories[1].data[0].id, addElem1Cat2.id,
-                'element id');
-            assert.equal(instance.categories[1].data[0].sections, addElem1Cat2.sections,
-                'element sections');
-            assert.equal(newElem.content, instance.categories[1].data[0], 'element content');
-            expect(newElem.content.open).to.be.undefined;
+            assert.equal(instance.model.categories[1].elements[0].id, addElem1Cat2.id, 'element id');
+            assert.equal(instance.model.categories[1].elements[0].sections, addElem1Cat2.sections, 'element sections');
+
+            assert.equal(instance.viewer.categories[1].elements[0].id, addElem1Cat2.id, 'element id');
+            expect(instance.viewer.categories[1].elements[0].open).to.be.undefined;
         });
     });
 
@@ -306,8 +326,8 @@ describe('PinPadViewerFlowTest', function(){
             elTrashes[1].dispatchEvent(evt); //close
             flushAllD3Transitions();
 
-            assert.equal(instance.categories[0].data.length, 2, 'only two elements in data list now');
-            assert.equal(instance.categories[0].elements.length, 2, 'only two elements in dom list now');
+            assert.equal(instance.model.categories[0].elements.length, 2, 'only two elements in model');
+            assert.equal(instance.viewer.categories[0].elements.length, 2, 'only two elements in view');
         });
         it('should remove the element in the DOM', function() {
             var elements = document.querySelectorAll('.up_pp_element-header');
@@ -327,49 +347,11 @@ describe('PinPadViewerFlowTest', function(){
             assert.equal(categories.length, 1, 'only 1 category in total');
         });
         it('should remove the category in the data', function() {
-            assert.equal(instance.categories.length, 1, 'only 1 category now');
-            assert.equal(instance.categories[0].data.length, 1, 'only 1 element in data list now');
-            assert.equal(instance.categories[0].elements.length, 1, 'only 1 element in dom list now');
-        })
-    });
+            assert.equal(instance.model.categories.length, 1, 'only 1 category now in model');
+            assert.equal(instance.model.categories[0].elements.length, 1, 'only 1 element in data list now');
 
-    describe('removing element with the API method', function() {
-        var addElem2Cat2 = {
-            category: "Post translational modification",
-            id: 'ft_41',
-            sections: [
-                {
-                    title: "Modified residue",
-                    information: {
-                        description: "Phosphoserine; by CK2"
-                    }
-                }
-            ]
-        };
-        it('should add ft_41 element', function() {
-            instance.addElement(addElem2Cat2);
-            assert.equal(instance.categories[0].data.length, 2, 'two elements');
-        });
-        it('should remove ft_4 element', function() {
-            instance.removeElement('ft_4');
-            assert.equal(instance.categories[0].elements.length, 1, 'only 1 element');
-            assert.equal(instance.categories[0].data.length, 1, 'only 1 element in data');
-
-            var elements = document.querySelectorAll('.up_pp_element-header');
-            assert.equal(elements.length, 1, 'only 1 element in DOM');
-        });
-    });
-
-    describe('removing category with the API method', function() {
-        it('should remove category Post translational modification', function() {
-            instance.removeCategory('Post translational modification');
-            assert.equal(instance.categories.length, 0, 'no categories');
-
-            var category = document.querySelectorAll('.up_pp_category-header');
-            assert.equal(category.length, 0, 'no categories in DOM');
-
-            var elements = document.querySelectorAll('.up_pp_element-header');
-            assert.equal(elements.length, 0, 'no elements in DOM');
+            assert.equal(instance.viewer.categories.length, 1, 'only 1 category now in view');
+            assert.equal(instance.viewer.categories[0].elements.length, 1, 'only 1 element in dom list now');
         });
     });
 });

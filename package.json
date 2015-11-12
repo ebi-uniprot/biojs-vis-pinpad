@@ -1,7 +1,7 @@
 {
   "name": "biojs-vis-pinpad",
   "description": "A component to pin tootlip-like information",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "homepage": "https://github.com/ebi-uniprot/biojs-vis-pinpad",
   "author": {
     "name": "ljgarcia",
@@ -15,7 +15,7 @@
     "url": "https://github.com/ebi-uniprot/biojs-vis-pinpad/issues"
   },
   "license": "Apache-2.0",
-  "main": "lib/PinpadViewer.js",
+  "main": "lib/PinPad.js",
   "scripts": {
     "test": "gulp test",
     "build": "gulp build",
@@ -58,7 +58,7 @@
     "js": [
       "/build/external/d3.min.js",
       "/build/external/underscore.min.js",
-      "/build/PinpadViewer.js",
+      "/build/PinPad.js",
       "/snippets/data/data.js"
     ],
     "exposed": [

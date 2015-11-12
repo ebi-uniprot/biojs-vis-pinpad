@@ -9,7 +9,7 @@
 
 // browserify build config
 var buildDir = "build";
-var outputFile = "PinpadViewer";
+var outputFile = "PinPad";
 
 // packages
 var gulp   = require('gulp');
@@ -81,7 +81,7 @@ gulp.task('test-unit', ['test-env'], function () {
 gulp.task('test-env', ['init-test-reports'], function() {
     env({
         vars: {
-            XUNIT_FILE: 'reports/TEST-PinpadViewerTest.xml',
+            XUNIT_FILE: 'reports/TEST-PinPadTest.xml',
             LOG_XUNIT: true
         }
     });
