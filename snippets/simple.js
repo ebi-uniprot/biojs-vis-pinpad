@@ -20,11 +20,13 @@ removeDiv.appendChild(removeButton);
 
 var app = require("biojs-vis-pinpad");
 var instance = new app({
-    el: appDiv
-    , width: '220px'
-    , height: '320px'
-    , highlightColor: 'green'
-    , text: 'biojs'
+    ordering: ['type', 'start', 'end'],
+    options: {
+        el: appDiv
+        , width: '220px'
+        , height: '320px'
+        , highlightColor: 'green'
+    }
 });
 
 var toAdd = [site671, site580, catPTM, site342, site425, variant];
@@ -46,17 +48,17 @@ removeButton.onclick = function() {
     }
 };
 
-instance.getDispatcher().on('duplication', function(obj) {
+instance.dispatcher.on('duplication', function(obj) {
     console.log('Element already exist');
     console.log(obj);
 });
 
-instance.getDispatcher().on('add', function(obj) {
+instance.dispatcher.on('add', function(obj) {
     console.log('Something added');
     console.log(obj);
 });
 
-instance.getDispatcher().on('remove', function(obj) {
+instance.dispatcher.on('remove', function(obj) {
     console.log('Something removed');
     console.log(obj);
 });
