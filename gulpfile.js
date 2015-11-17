@@ -23,6 +23,7 @@ var minifyCss = require('gulp-minify-css');
 // testing
 var mocha = require('gulp-mocha');
 var mochaPhantomJS = require('gulp-mocha-phantomjs');
+var env = require('gulp-env');
 
 // code coverage
 var istanbul = require('gulp-istanbul');
@@ -61,7 +62,6 @@ gulp.task('lint', function() {
 });
 
 gulp.task('test', ['test-unit', 'test-dom']);
-
 
 gulp.task('test-unit', ['test-env'], function () {
     return gulp.src(['./src/**/*.js', './lib/**/*.js'])

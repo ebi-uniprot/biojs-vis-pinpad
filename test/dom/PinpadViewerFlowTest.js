@@ -18,9 +18,10 @@ var yourDiv = document.getElementById('mocha');
 
 // requires your main app (specified in index.js)
 var PinPad = require('../..');
+var TestData = require('../TestData');
 
 describe('PinPadViewerFlowTest', function(){
-    var instance;
+    var instance, data;
     var elemField = 'description';
 
     var flushAllD3Transitions = function() {
@@ -40,6 +41,7 @@ describe('PinPadViewerFlowTest', function(){
                 , highlightColor: 'green'
             }
         });
+        data = new TestData();
         done();
     });
 
@@ -63,38 +65,21 @@ describe('PinPadViewerFlowTest', function(){
     });
 
     describe('adding a first element and category', function() {
-        var addCat1Elem1 = {
-            category: "Domains & sites",
-            id: 'ft_1',
-            ordering: {
-                type: 'region',
-                start: 181,
-                end: 188
-            },
-            sections: [
-                {
-                    title: "Region of interest 181-188",
-                    information: {
-                        description: "Zinc-binding"
-                    }
-                }
-            ]
-        };
         var catContainer, element, pad;
         it('should add a new category and element data', function() {
-            instance.addElement(addCat1Elem1);
+            instance.addElement(data.addCat1Elem1);
             assert.equal(instance.model.categories.length, 1, 'only one category in model');
-            assert.equal(instance.model.categories[0].title, addCat1Elem1.category, 'model category title');
+            assert.equal(instance.model.categories[0].title, data.addCat1Elem1.category, 'model category title');
             assert.equal(instance.model.categories[0].elements.length, 1, 'only one element in model');
-            assert.equal(instance.model.categories[0].elements[0].id, addCat1Elem1.id, 'model element id');
-            assert.equal(instance.model.categories[0].elements[0].sections, addCat1Elem1.sections, 'model element' +
-                ' sections');
+            assert.equal(instance.model.categories[0].elements[0].id, data.addCat1Elem1.id, 'model element id');
+            assert.equal(instance.model.categories[0].elements[0].sections, data.addCat1Elem1.sections, 'model' +
+                ' element sections');
 
             assert.equal(instance.viewer.categories.length, 1, 'only one category in view');
-            assert.equal(instance.viewer.categories[0].title, addCat1Elem1.category, 'view category title');
-            assert.equal(instance.model.categories[0].elements.length, 1, 'only one element in model');
-            assert.equal(instance.model.categories[0].elements[0].id, addCat1Elem1.id, 'model element id');
-            expect(instance.model.categories[0].elements[0].open).to.be.undefined;
+            assert.equal(instance.viewer.categories[0].title, data.addCat1Elem1.category, 'view category title');
+            assert.equal(instance.viewer.categories[0].elements.length, 1, 'only one element in view');
+            assert.equal(instance.viewer.categories[0].elements[0].id, data.addCat1Elem1.id, 'model element id');
+            expect(instance.viewer.categories[0].elements[0].open).to.be.undefined;
         });
         it('should add a new category to dom', function() {
             catContainer = document.getElementsByClassName('up_pp_category-container');
@@ -105,7 +90,7 @@ describe('PinPadViewerFlowTest', function(){
             assert.equal(header.getAttribute('class'), 'up_pp_category-header', 'header class');
             assert.equal(header.firstElementChild.getAttribute('class'), 'up_pp_category-name up_pftv_arrow-down',
                 'arrow class');
-            assert.equal(header.firstElementChild.innerText.toLowerCase(), addCat1Elem1.category.toLowerCase(),
+            assert.equal(header.firstElementChild.innerText.toLowerCase(), data.addCat1Elem1.category.toLowerCase(),
                 'category header text');
             assert.equal(header.lastElementChild.getAttribute('class'), 'up_pp_iconContainer', 'lift icon container');
             assert.equal(header.lastElementChild.firstElementChild.getAttribute('class'),
@@ -126,7 +111,7 @@ describe('PinPadViewerFlowTest', function(){
             assert.equal(elHeader.childElementCount, 2, 'text and lift');
             assert.equal(elHeader.firstElementChild.getAttribute('class'), 'up_pp_element-name up_pftv_arrow-down',
                 'element arrow class');
-            assert.equal(elHeader.firstElementChild.innerText.toLowerCase(), addCat1Elem1.sections[0].title.toLowerCase(),
+            assert.equal(elHeader.firstElementChild.innerText.toLowerCase(), data.addCat1Elem1.sections[0].title.toLowerCase(),
                 'element header text');
             assert.equal(elHeader.lastElementChild.getAttribute('class'), 'up_pp_iconContainer', 'el lift icon container');
             assert.equal(elHeader.lastElementChild.firstElementChild.getAttribute('class'),
@@ -140,7 +125,7 @@ describe('PinPadViewerFlowTest', function(){
             var col1 = elContent.firstElementChild.firstElementChild.firstElementChild;
             assert.equal(col1.innerText, elemField, 'row title');
             var col2 = elContent.firstElementChild.firstElementChild.lastElementChild;
-            assert.equal(col2.innerText, addCat1Elem1.sections[0].information[elemField], 'row information');
+            assert.equal(col2.innerText, data.addCat1Elem1.sections[0].information[elemField], 'row information');
         });
     });
 
@@ -159,35 +144,18 @@ describe('PinPadViewerFlowTest', function(){
     });
 
     describe('adding a second element to the same category', function() {
-        var addCat1Elem2 = {
-            category: "Domains & sites",
-            id: 'ft_2',
-            ordering: {
-                type: 'site',
-                start: 57,
-                end: 57
-            },
-            sections: [
-                {
-                    title: "Site 57-57",
-                    information: {
-                        description: "Reactive bond"
-                    }
-                }
-            ]
-        };
         it('should keep only one category', function() {
-            instance.addElement(addCat1Elem2);
+            instance.addElement(data.addCat1Elem2);
             assert.equal(instance.model.categories.length, 1, 'still only one category in model');
             assert.equal(instance.viewer.categories.length, 1, 'still only one category in view');
         });
         it('should have now a second element', function() {
             assert.equal(instance.model.categories[0].elements.length, 2, 'two elements in model');
-            assert.equal(instance.model.categories[0].elements[1].id, addCat1Elem2.id, 'second element id in model');
-            assert.equal(instance.model.categories[0].elements[1].sections, addCat1Elem2.sections, 'element sections');
+            assert.equal(instance.model.categories[0].elements[1].id, data.addCat1Elem2.id, 'second element id in model');
+            assert.equal(instance.model.categories[0].elements[1].sections, data.addCat1Elem2.sections, 'element sections');
 
             assert.equal(instance.viewer.categories[0].elements.length, 2, 'two elements in view');
-            assert.equal(instance.viewer.categories[0].elements[1].id, addCat1Elem2.id, 'second element id in view');
+            assert.equal(instance.viewer.categories[0].elements[1].id, data.addCat1Elem2.id, 'second element id in view');
             expect(instance.viewer.categories[0].elements[1].open).to.be.undefined;
         });
         it('should keep the first element closed', function() {
@@ -211,32 +179,15 @@ describe('PinPadViewerFlowTest', function(){
     });
 
     describe('adding an element in the middle', function() {
-        var addCat1Elem3 = {
-            category: "Domains & sites",
-            id: 'ft_3',
-            ordering: {
-                type: 'site',
-                start: 1,
-                end: 2
-            },
-            sections: [
-                {
-                    title: "Site 1-2",
-                    information: {
-                        description: "Cleavage; by beta-secretase"
-                    }
-                }
-            ]
-        };
         it('should add a third element into the second position', function() {
-            instance.addElement(addCat1Elem3);
+            instance.addElement(data.addCat1Elem3);
 
             assert.equal(instance.model.categories[0].elements.length, 3, 'three elements in model');
-            assert.equal(instance.model.categories[0].elements[1].id, addCat1Elem3.id, 'middle element id in model');
-            assert.equal(instance.model.categories[0].elements[1].sections, addCat1Elem3.sections, 'element sections');
+            assert.equal(instance.model.categories[0].elements[1].id, data.addCat1Elem3.id, 'middle element id in model');
+            assert.equal(instance.model.categories[0].elements[1].sections, data.addCat1Elem3.sections, 'element sections');
 
             assert.equal(instance.viewer.categories[0].elements.length, 3, 'three elements in view');
-            assert.equal(instance.viewer.categories[0].elements[1].id, addCat1Elem3.id, 'middle element id in view');
+            assert.equal(instance.viewer.categories[0].elements[1].id, data.addCat1Elem3.id, 'middle element id in view');
             expect(instance.viewer.categories[0].elements[1].open).to.be.undefined;
         });
         it('should open the category after insertion', function() {
@@ -259,20 +210,8 @@ describe('PinPadViewerFlowTest', function(){
     });
 
     describe('unsuccessfully adding an element with a duplicated id', function() {
-        var addDuplicated = {
-            category: "Anything here",
-            id: 'ft_3',
-            sections: [
-                {
-                    title: "Domain 10-13",
-                    information: {
-                        description: "Not provided"
-                    }
-                }
-            ]
-        };
         it('should not have a duplicated id', function() {
-            instance.addElement(addDuplicated);
+            instance.addElement(data.addDuplicated);
             assert.equal(instance.model.categories[0].elements.length, 3, 'still three elements in model');
             assert.equal(instance.viewer.categories[0].elements.length, 3, 'still three elements in view');
         });
@@ -286,20 +225,8 @@ describe('PinPadViewerFlowTest', function(){
     });
 
     describe('adding an element in a new category', function() {
-        var addElem1Cat2 = {
-            category: "Post translational modification",
-            id: 'ft_4',
-            sections: [
-                {
-                    title: "Modified residue",
-                    information: {
-                        description: "Phosphoserine; by CK1"
-                    }
-                }
-            ]
-        };
         it('should add a new category', function() {
-            instance.addElement(addElem1Cat2);
+            instance.addElement(data.addElem1Cat2);
 
             assert.equal(instance.model.categories.length, 2, 'two categories in model');
             assert.equal(instance.viewer.categories.length, 2, 'two categories in view');
@@ -310,10 +237,10 @@ describe('PinPadViewerFlowTest', function(){
             assert.equal(instance.viewer.categories[1].elements.length, 1, 'one element');
         });
         it('should add a new element', function() {
-            assert.equal(instance.model.categories[1].elements[0].id, addElem1Cat2.id, 'element id');
-            assert.equal(instance.model.categories[1].elements[0].sections, addElem1Cat2.sections, 'element sections');
+            assert.equal(instance.model.categories[1].elements[0].id, data.addElem1Cat2.id, 'element id');
+            assert.equal(instance.model.categories[1].elements[0].sections, data.addElem1Cat2.sections, 'element sections');
 
-            assert.equal(instance.viewer.categories[1].elements[0].id, addElem1Cat2.id, 'element id');
+            assert.equal(instance.viewer.categories[1].elements[0].id, data.addElem1Cat2.id, 'element id');
             expect(instance.viewer.categories[1].elements[0].open).to.be.undefined;
         });
     });
