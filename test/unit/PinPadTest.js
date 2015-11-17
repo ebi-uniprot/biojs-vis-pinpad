@@ -49,8 +49,6 @@ describe('PinPadTest', function(){
         });
         it('should have now a second element', function() {
             assert.equal(model.categories[0].elements.length, 2, 'two elements in model');
-            console.log(model.categories[0].elements[0].id);
-            console.log(model.categories[0].elements[1].id);
             assert.equal(model.categories[0].elements[1].id, data.addCat1Elem2.id, 'second element id in model');
             assert.equal(model.categories[0].elements[1].sections, data.addCat1Elem2.sections, 'element sections');
         });
