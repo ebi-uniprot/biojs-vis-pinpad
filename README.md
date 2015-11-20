@@ -10,10 +10,10 @@ This component is inteded to be flexible enough so other components can use it. 
 {
   ordering: [] //array of strings
   , options: {
-    el: object //the component will be add to it
-    , width: number //in pixels or percentage
-    , height: number //in pixels of percentage
-    , highlightColor: color //used to highlight the most recently pinned element, shade effect
+    el: object //this component will be append to it    
+    , height: number //in pixels of percentage, 500px by default
+    , width: number //in pixels or percentage, 250px by default
+    , highlightColor: color //used to highlight the most recently pinned element with a shade effect, green by default
   }
   , toPin: object //element to pin, see description below
 }
@@ -56,6 +56,7 @@ Any field with an _# can be replaced by any valid JSON key name, any other key s
       , key_3: [] //elements in arrays will be separated by commas, elements can be any combination of Strings, numbers or pairs (value, link)
       , styled_key_1: {
         key: String //will be displayed on the left column
+        , key_right: boolean //if true, then the key will be moved to the value column
         , key_style: style string //optional
         , value: String/Number/Pair of (value, link))/Array
         , value_style: style string//optional
@@ -91,6 +92,7 @@ Any field with an _# can be replaced by any valid JSON key name, any other key s
             },
             "styled_evidenceArray_cosmic_1": {
                 "key": "cosmic",
+                "key_right": true,
                 "key_style": "text-align: right; background-color: #F0F0F0",
                 "value": [{
                     "value": "COSM1413501",

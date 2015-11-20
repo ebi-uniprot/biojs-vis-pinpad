@@ -208,11 +208,17 @@ var variant = {
             },
             "styled_evidenceArray_cosmic_1": {
                 "key": "cosmic",
+                "key_right": true,
                 "key_style": "text-align: right; background-color: #F0F0F0",
                 "value": [{
-                    "value": "COSM1413501",
-                    "link": "http://cancer.sanger.ac.uk/cosmic/mutation/overview?id=1413501"
-                }],
+                        "value": "COSM1413501",
+                        "link": "http://cancer.sanger.ac.uk/cosmic/mutation/overview?id=1413501"
+                    },
+                    {
+                        "value": "COSM1234567",
+                        "link": "http://cancer.sanger.ac.uk/cosmic/mutation/overview?id=1234567"
+                    }
+                ],
                 "value_style": "background-color: #F0F0F0"
             },
             "styled_evidenceArray_cosmic_study_1": {
