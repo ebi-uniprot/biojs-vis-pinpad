@@ -176,15 +176,7 @@ function exposeBundles(b){
     b.add("./" + packageConfig.main, {expose: packageConfig.name });
     if(packageConfig.sniper !== undefined && packageConfig.sniper.exposed !== undefined){
         for(var i=0; i<packageConfig.sniper.exposed.length; i++){
-            b.external(packageConfig.sniper.exposed[i]);
-            var br = browserify();
-            br.require(packageConfig.sniper.exposed[i]);
-            br.transform('envify');
-            br.bundle()
-                .pipe(source('./external/' + packageConfig.sniper.exposed[i] + '.min.js'))
-                .pipe(chmod(644))
-                .pipe(streamify(uglify()))
-                .pipe(gulp.dest(buildDir));
+            b.require(packageConfig.sniper.exposed[i]);
         }
     }
 }
