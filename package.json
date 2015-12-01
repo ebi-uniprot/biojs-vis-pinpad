@@ -57,8 +57,6 @@
   },
   "sniper": {
     "js": [
-      "/build/external/d3.min.js",
-      "/build/external/underscore.min.js",
       "/build/PinPad.js",
       "/snippets/data/data.js"
     ],
