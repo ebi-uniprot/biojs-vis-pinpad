@@ -57,7 +57,7 @@ describe('PinPadViewerFlowTest', function(){
         assert.equal(titleDiv.childElementCount, 1, 'only one icon container');
         assert.equal(titleDiv.firstElementChild.getAttribute('class'), 'up_pp_iconContainer', 'icon class');
         assert.equal(titleDiv.firstElementChild.childElementCount, 1, 'only one icon');
-        assert.equal(titleDiv.firstElementChild.firstElementChild.getAttribute('class'), 'up-pp-icon-pin up_pp_icon',
+        assert.equal(titleDiv.firstElementChild.firstElementChild.getAttribute('class'), 'icon-pin up_pp_icon',
             'icon classes');
 
         assert.equal(mainContainer.lastElementChild.getAttribute('class'), 'up_pp_pad');
@@ -94,7 +94,7 @@ describe('PinPadViewerFlowTest', function(){
                 'category header text');
             assert.equal(header.lastElementChild.getAttribute('class'), 'up_pp_iconContainer', 'lift icon container');
             assert.equal(header.lastElementChild.firstElementChild.getAttribute('class'),
-                'up-pp-icon-trash up_pp_clickable-icon', 'lift icon');
+                'icon-trash up_pp_clickable-icon', 'lift icon');
         });
         it('should add a new pad to the category', function() {
             pad = catContainer[0].lastElementChild;
@@ -115,7 +115,7 @@ describe('PinPadViewerFlowTest', function(){
                 'element header text');
             assert.equal(elHeader.lastElementChild.getAttribute('class'), 'up_pp_iconContainer', 'el lift icon container');
             assert.equal(elHeader.lastElementChild.firstElementChild.getAttribute('class'),
-                'up-pp-icon-trash up_pp_clickable-icon', 'el lift icon');
+                'icon-trash up_pp_clickable-icon', 'el lift icon');
         });
         it('should add new content for the element', function() {
             var elContent = element.lastElementChild;
@@ -247,7 +247,7 @@ describe('PinPadViewerFlowTest', function(){
 
     describe('removing the middle element in first category', function() {
         it('should remove the element', function() {
-            var elTrashes = document.querySelectorAll('.up_pp_element-header .up-pp-icon-trash');
+            var elTrashes = document.querySelectorAll('.up_pp_element-header .icon-trash');
             var evt = document.createEvent("MouseEvents");
             evt.initMouseEvent("click", true, true, window, 1, 1, 1, 1, 1, false, false, false, false, 0, elTrashes[1]);
             elTrashes[1].dispatchEvent(evt); //close
@@ -264,7 +264,7 @@ describe('PinPadViewerFlowTest', function(){
 
     describe('removing the first category', function() {
         it('should remove the category in the DOM', function() {
-            var catTrashes = document.querySelectorAll('.up_pp_category-header .up-pp-icon-trash');
+            var catTrashes = document.querySelectorAll('.up_pp_category-header .icon-trash');
             var evt = document.createEvent("MouseEvents");
             evt.initMouseEvent("click", true, true, window, 1, 1, 1, 1, 1, false, false, false, false, 0, catTrashes[0]);
             catTrashes[0].dispatchEvent(evt); //close

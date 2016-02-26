@@ -19,7 +19,7 @@
 }
 */
 
- [class^="up-pp-icon-"]:before, [class*=" up-pp-icon-"]:before {
+ [class^="icon-"]:before, [class*="icon-"]:before {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
@@ -54,5 +54,5 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.up-pp-icon-pin:before { content: '\e800'; } /* '' */
-.up-pp-icon-trash:before { content: '\e801'; } /* '' */
+.icon-pin:before { content: '\e800'; } /* '' */
+.icon-trash:before { content: '\e801'; } /* '' */
